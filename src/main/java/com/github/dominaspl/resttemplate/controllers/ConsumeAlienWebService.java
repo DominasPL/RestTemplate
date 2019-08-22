@@ -30,16 +30,29 @@ public class ConsumeAlienWebService {
         return restTemplate.exchange("http://localhost:8090/aliens", HttpMethod.GET, entity, String.class).getBody();
     }
 
-    @GetMapping("/alien")
-    public String getAlienById() {
+    @GetMapping("/alien/{id}")
+    public String getAlienById(@PathVariable("id") Long id) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
-        return restTemplate.exchange("http://localhost:8090/aliens/alien/{id}", HttpMethod.GET, entity, String.class, 1).getBody();
+        return restTemplate.exchange("http://localhost:8090/aliens/alien/{id}", HttpMethod.GET, entity, String.class, id).getBody();
 
     }
 
+
+    @PostMapping("/alien")
+    public void createAlien(@RequestBody Alien alien) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+
+        HttpEntity<Alien> entity = new HttpEntity<>(alien, httpHeaders);
+
+        restTemplate.postForLocation("http://localhost:8090/aliens/alien", entity);
+        System.out.println("An alien was sent to web service!");
+
+    }
 
 }
