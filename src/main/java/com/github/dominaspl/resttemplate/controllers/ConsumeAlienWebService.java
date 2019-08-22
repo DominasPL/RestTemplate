@@ -66,6 +66,17 @@ public class ConsumeAlienWebService {
         HttpEntity<Alien> entity = new HttpEntity<>(alien, httpHeaders);
 
         return restTemplate.exchange("http://localhost:8090/aliens/alien", HttpMethod.PUT, entity, String.class).getBody();
+    }
+
+    @DeleteMapping("/alien/{id}")
+    public String deleteAlien(@PathVariable("id") Long id) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+
+        return restTemplate.exchange("http://localhost:8090/aliens/alien/{id}", HttpMethod.DELETE, entity, String.class, id).getBody();
 
     }
 
